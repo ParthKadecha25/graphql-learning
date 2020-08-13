@@ -1,0 +1,201 @@
+This is the sample file
+
+________________________
+
+1. Add Author
+________________________
+
+QUERY 
+
+mutation ($author: AuthorInput!) {
+  addAuthor(author: $author)
+  {
+    id name
+  }
+} 
+
+QUERY VARIABLES: 
+{
+  "author": {
+    "name": "Anand Gandhi",
+    "bio": "Nothing much to write now"
+  }
+} 
+
+SAMPLE RESULT:
+{
+  "data": {
+    "addAuthor": {
+      "id": 6,
+      "name": "Anand Gandhi"
+    }
+  }
+}
+
+
+________________________
+
+2. Update Author
+________________________
+
+QUERY 
+
+mutation ($authorID: Int!, $author: AuthorInput!) {
+  updateAuthor(authorID: $authorID, author: $author) {
+    id
+    name
+    bio
+  }
+}
+
+
+QUERY VARIABLES: 
+{
+  "authorID": 6,
+  "author": {
+    "name": "Anand Gandhi",
+    "bio": "It's full of confusion right now"
+  }
+}
+
+SAMPLE RESULT:
+{
+  "data": {
+    "updateAuthor": {
+      "id": 6,
+      "name": "Anand Gandhi",
+      "bio": "It's full of confusion right now"
+    }
+  }
+}
+
+________________________
+
+3. Delete Author
+________________________
+
+QUERY 
+
+mutation ($authorID: Int!) {
+  deleteAuthor(authorID: $authorID)
+}
+
+
+
+QUERY VARIABLES: 
+{
+  "authorID": 6
+}
+
+SAMPLE RESULT:
+{
+  "data": {
+    "deleteAuthor": true
+  }
+}
+
+________________________
+
+4. Get all authors and their post with category details
+________________________
+
+QUERY 
+
+{
+  authors {
+    id
+    name
+    bio
+    posts {
+      title
+      description
+      url
+      category {
+        name
+        description
+      }
+    }
+  }
+}
+
+
+
+QUERY VARIABLES: 
+{
+  "authorID": 6
+}
+
+SAMPLE RESULT:
+{
+  "data": {
+    "authors": [
+      {
+        "id": 2,
+        "name": "Darshit Gajjar",
+        "bio": null,
+        "posts": [
+          {
+            "title": "My First Post in SharePoint",
+            "description": "New description",
+            "url": "https://www.google.co.in",
+            "category": {
+              "name": "SharePoint",
+              "description": "Everything about SharePoint"
+            }
+          },
+          {
+            "title": "My First Post in Javascript",
+            "description": "No details required",
+            "url": "https://www.google.com",
+            "category": {
+              "name": "Javascript",
+              "description": "The base of front-end development - JavaScript"
+            }
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "name": "Parth Kadecha",
+        "bio": "Test Bio1",
+        "posts": [
+          {
+            "title": "My First Post in .net",
+            "description": "Will provide more details later",
+            "url": null,
+            "category": {
+              "name": ".Net",
+              "description": "I have to add this as well"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
+
+
+
+________________________________
+FOR POSTMAN
+
+POST -> https://localhost:44379/graphql
+
+BODY -> RAW (JSON)
+
+{
+	"query" : "query($authorName : String) {
+		authors (authorName : $authorName) {
+		    name
+		    id
+		    posts {
+		      id
+		      title
+		      description
+		    }
+		  }
+	}",
+	"variables" : {
+		"authorName" : "Parth"
+	}
+}
